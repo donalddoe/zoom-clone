@@ -22,7 +22,7 @@ myVideo.muted = true;
 const peers = {}
 navigator.mediaDevices.getUserMedia({
   video: true,
-  audio: false
+  audio: true
 }).then(stream => {
   myVideoStream = stream;
   addVideoStream(myVideo, stream);
@@ -54,6 +54,11 @@ navigator.mediaDevices.getUserMedia({
     
 })
 
+socket.on('user-disconnected', userId => {
+    if (peers[userId]) peers[userId].close()
+  })
+  
+
 myPeer.on('open', id => {
     socket.emit('join-room', ROOM_ID, id)
   })
@@ -72,7 +77,7 @@ myPeer.on('open', id => {
       video.remove()
     })
   
-    // peers[userId] = call
+    peers[userId] = call
   }
   
   function addVideoStream(video, stream) {
@@ -110,9 +115,8 @@ myPeer.on('open', id => {
       myVideoStream.getVideoTracks()[0].enabled = true;
     }
   }
-
   
-const setMuteButton = () => {
+  const setMuteButton = () => {
     const html = `
       <i class="fas fa-microphone"></i>
       <span>Mute</span>
@@ -143,5 +147,4 @@ const setMuteButton = () => {
     `
     document.querySelector('.main__video_button').innerHTML = html;
   }
-  
 
