@@ -11,13 +11,13 @@ const myPeer = new Peer(undefined, {
     port: '443'
 });
 
-const myVideo = document.createElement('video');
-myVideo.muted = true;
+// const myVideo = document.createElement('video');
+// myVideo.muted = true;
 
  
 
 let myVideoStream;
-// const myVideo = document.createElement('video')
+const myVideo = document.createElement('video')
 myVideo.muted = true;
 const peers = {}
 navigator.mediaDevices.getUserMedia({
